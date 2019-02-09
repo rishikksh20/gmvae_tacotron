@@ -27,26 +27,25 @@ def GMVAE(inputs, input_lengths, kernel_size, num_units, is_training, scope):
 
 def ReferenceEncoder(inputs, input_lengths, num_layers, channels, kernel_size, activation, size, is_training, zoneout, scope='reference_encoder'):
     with tf.variable_scope(scope):
-		reference_output = tf.expand_dims(inputs, axis=-1)
+		#reference_output = tf.expand_dims(inputs, axis=-1)
 		for i in range(num_layers):
-			reference_output = conv1d(reference_output, kernel_size, channels, activation,
+			reference_output = conv1d(inputs, kernel_size, channels, activation,
 					   is_training, 'conv_layer_{}_'.format(i + 1) + scope)
-
-        cells_fw = [ZoneoutLSTMCell(size, is_training,
+		cells_fw = [ZoneoutLSTMCell(size, is_training,
 			zoneout_factor_cell=zoneout,
 			zoneout_factor_output=zoneout) for i in range(num_layers)]
-        cells_bw = [ZoneoutLSTMCell(size, is_training,
+		cells_bw = [ZoneoutLSTMCell(size, is_training,
 			zoneout_factor_cell=zoneout,
 			zoneout_factor_output=zoneout) for i in range(num_layers)]
-        outputs, _, _ = tf.contrib.rnn.stack_bidirectional_dynamic_rnn(
+		outputs, _, _ = tf.contrib.rnn.stack_bidirectional_dynamic_rnn(
                                 cells_fw=cells_fw,
                                 cells_bw=cells_bw,
                                 inputs=reference_output,
                                 sequence_length=input_lengths,
                                 dtype=tf.float32,
                                 scope=scope)
-        output=tf.reduce_mean(outputs, axis=1)
-        return output
+		output=tf.reduce_mean(outputs, axis=1)
+		return output
 
 
 def conv1d(inputs, kernel_size, channels, activation, is_training, scope):
