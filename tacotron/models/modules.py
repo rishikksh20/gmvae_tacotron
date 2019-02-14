@@ -19,23 +19,19 @@ def GMVAE(inputs, input_lengths, kernel_size, num_units, is_training, scope):
             zoneout=0.1)
 
         mu = tf.layers.dense(outputs, num_units, name='mean')
-        print("mu shape :",mu.get_shape())
         log_var = tf.layers.dense(outputs, num_units, name='vari')
-        print("log_var shape :",log_var.get_shape())
         std = tf.exp(log_var)
         z = tf.random_normal(shape=[tf.shape(mu)[0], num_units], mean=0.0, stddev=1.0)
-        print("z shape :",z.get_shape())
         output = mu + z * std
-        print("output z shape :",output.get_shape())
         return output, mu, log_var
 
 def ReferenceEncoder(inputs, input_lengths, num_layers, channels, kernel_size, activation, size, is_training, zoneout, scope='reference_encoder'):
     with tf.variable_scope(scope):
-        #reference_output = tf.expand_dims(inputs, axis=-1)
+		#reference_output = tf.expand_dims(inputs, axis=-1)
         for i in range(num_layers):
             reference_output = conv1d(inputs, kernel_size, channels, activation,
-                                      is_training, 'conv_layer_{}_'.format(i + 1) + scope)
-        print("reference_output outputs shape :",reference_output.get_shape())
+            is_training, 'conv_layer_{}_'.format(i + 1) + scope)
+
         cells = [ZoneoutLSTMCell(size, is_training,
 			zoneout_factor_cell=zoneout,
 			zoneout_factor_output=zoneout) for i in range(num_layers)]
@@ -46,9 +42,7 @@ def ReferenceEncoder(inputs, input_lengths, num_layers, channels, kernel_size, a
                                 sequence_length=input_lengths,
                                 dtype=tf.float32,
                                 scope=scope)
-        print("BiLSTM outputs shape :",outputs.get_shape())
         output=tf.reduce_mean(outputs, axis=1)
-        print("output shape :",output.get_shape())
         return output
 
 
