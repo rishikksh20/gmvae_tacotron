@@ -130,7 +130,7 @@ def train(log_dir, args):
 					step, time_window.average, loss, loss_window.average)
 				log(message, end='\r')
 
-				if loss > 100 or np.isnan(loss):
+				if np.isnan(loss):
 					log('Loss exploded to {:.5f} at step {}'.format(loss, step))
 					raise Exception('Loss exploded')
 

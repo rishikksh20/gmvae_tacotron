@@ -69,7 +69,7 @@ class Tacotron():
 				style_embeddings, mu, log_var = GMVAE(
 					inputs=reference_mel,
 					input_lengths=mel_lengths,
-					kernel_size=(3, 1),
+					kernel_size=(3,),
 					num_units=hp.gmvae_dim,
 					is_training=is_training,
 					scope='vae')
@@ -243,8 +243,8 @@ class Tacotron():
 
 			if hp.use_vae:
 				self.ki_loss = -0.5 * tf.reduce_sum(1 + self.log_var - tf.pow(self.mu, 2) - tf.exp(self.log_var))
-				#vae_loss_weight = vae_weight(global_step)
-				self.loss += self.ki_loss #* vae_loss_weight
+				vae_loss_weight = vae_weight(global_step)
+				self.loss += self.ki_loss * vae_loss_weight
 
 
 	def add_optimizer(self, global_step):
