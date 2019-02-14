@@ -11,9 +11,9 @@ def main():
 	parser.add_argument('--name', help='Name of logging directory.')
 	parser.add_argument('--model', default='Tacotron')
 	parser.add_argument('--restore', type=bool, default=True, help='Set this to False to do a fresh training')
-	parser.add_argument('--summary_interval', type=int, default=100,
+	parser.add_argument('--summary_interval', type=int, default=200,
 		help='Steps between running summary ops')
-	parser.add_argument('--checkpoint_interval', type=int, default=500,
+	parser.add_argument('--checkpoint_interval', type=int, default=1000,
 		help='Steps between writing checkpoints')
 	parser.add_argument('--tf_log_level', type=int, default=1, help='Tensorflow C++ log level.')
 	args = parser.parse_args()
