@@ -42,6 +42,9 @@ hparams = tf.contrib.training.HParams(
 	# GMVAE:
 	use_vae=True,
 	gmvae_dim=16,
+	vae_warming_up=15000,
+	init_vae_weights=0.001,
+	vae_weight_multiler=0.002,
 
 	#Tacotron
 	outputs_per_step = 1, #number of frames to generate at each decoding step (speeds up computation and allows for higher batch size)
