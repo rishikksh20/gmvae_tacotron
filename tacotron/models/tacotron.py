@@ -69,7 +69,7 @@ class Tacotron():
 				style_embeddings, mu, log_var = GMVAE(
 					inputs=reference_mel,
 					input_lengths=mel_lengths,
-					kernel_size=(3,),
+					kernel_size=(3,1),
 					num_units=hp.gmvae_dim,
 					is_training=is_training,
 					scope='vae')
