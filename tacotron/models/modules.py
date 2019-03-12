@@ -29,8 +29,11 @@ def ReferenceEncoder(inputs, input_lengths, num_layers, channels, kernel_size, a
     with tf.variable_scope(scope):
 		#reference_output = tf.expand_dims(inputs, axis=-1)
         for i in range(num_layers):
-            reference_output = conv1d(inputs, kernel_size, channels, activation,
-            is_training, 'conv_layer_{}_'.format(i + 1) + scope)
+            reference_output = conv2d(reference_output, channel, kernel_size,
+                                      strides, tf.nn.relu, is_training, 'conv2d_{}'.format(i))
+        
+        shape = shape_list(reference_output)
+        reference_output = tf.reshape(reference_output, shape[:-2] + [shape[2] * shape[3]])
 
         cells = [ZoneoutLSTMCell(size, is_training,
 			zoneout_factor_cell=zoneout,
