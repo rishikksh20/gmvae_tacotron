@@ -13,6 +13,7 @@ def GMVAE(inputs, input_lengths, kernel_size, num_units, is_training, scope):
             num_layers=2,
             channels=512,
             kernel_size=kernel_size,
+            strides=(1,1), # may  be different
             activation=tf.nn.relu,
             size=256,
             is_training=is_training,
@@ -25,13 +26,13 @@ def GMVAE(inputs, input_lengths, kernel_size, num_units, is_training, scope):
         output = mu + z * std
         return output, mu, log_var
 
-def ReferenceEncoder(inputs, input_lengths, num_layers, channels, kernel_size, activation, size, is_training, zoneout, scope='reference_encoder'):
+def ReferenceEncoder(inputs, input_lengths, num_layers, channels, kernel_size, strides, activation, size, is_training, zoneout, scope='reference_encoder'):
     with tf.variable_scope(scope):
         reference_output = tf.expand_dims(inputs, axis=-1)
         for i in range(num_layers):
-            reference_output = conv2d(reference_output, channel, kernel_size,
-                                      strides, tf.nn.relu, is_training, 'conv2d_{}'.format(i))
-        
+            reference_output = conv2d(reference_output, channels, kernel_size,
+                                      strides, activation, is_training, 'conv2d_{}'.format(i))
+
         shape = shape_list(reference_output)
         reference_output = tf.reshape(reference_output, shape[:-2] + [shape[2] * shape[3]])
 
@@ -292,4 +293,3 @@ class Postnet:
 					self.is_training, 'conv_layer_{}_'.format(i + 1)+self.scope)
 			x = conv1d(x, self.kernel_size, self.channels, lambda _: _, self.is_training, 'conv_layer_{}_'.format(5)+self.scope)
 		return x
-
