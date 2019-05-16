@@ -27,7 +27,7 @@ def GMVAE(inputs, input_lengths, kernel_size, num_units, is_training, scope):
 
 def ReferenceEncoder(inputs, input_lengths, num_layers, channels, kernel_size, activation, size, is_training, zoneout, scope='reference_encoder'):
     with tf.variable_scope(scope):
-		#reference_output = tf.expand_dims(inputs, axis=-1)
+	reference_output = tf.expand_dims(inputs, axis=-1)
         for i in range(num_layers):
             reference_output = conv2d(reference_output, channel, kernel_size,
                                       strides, tf.nn.relu, is_training, 'conv2d_{}'.format(i))
