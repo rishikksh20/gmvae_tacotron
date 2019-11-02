@@ -1,5 +1,5 @@
 # GMVAE Tacotron-2:
-Tensorflow Unofficial Implementation of [Learning latent representations for style control and transfer in end-to-end speech synthesis](https://arxiv.org/pdf/1812.04342.pdf)
+Tensorflow Unofficial Implementation of [HIERARCHICAL GENERATIVE MODELING FOR CONTROLLABLE SPEECH SYNTHESIS](https://arxiv.org/pdf/1810.07217.pdf)
 
 
 # Repository Structure:
