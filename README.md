@@ -97,7 +97,7 @@ or
 
 # Pretrained model and Samples:
 TODO
-Claimed Samples from research paper : http://home.ustc.edu.cn/~zyj008/ICASSP2019
+
 
 # References and Resources:
 - [Tensorflow original tacotron implementation](https://github.com/keithito/tacotron)
